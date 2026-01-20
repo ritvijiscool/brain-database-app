@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <meta name="description" content="A local-first cognitive system for capturing and organizing atomic ideas.">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div id="app">
         <!-- Header -->
@@ -14,7 +16,7 @@
             <h1>Brain Database</h1>
             <nav class="nav">
                 <button id="nav-input" class="nav-btn active">Input</button>
-                <button id="nav-ideas" class="nav-btn">Ideas</button>
+                <button id="nav-ideas" class="nav-btn">Search & Retrieve</button>
             </nav>
         </header>
 
@@ -27,20 +29,43 @@
                         Type or paste information below.<br>
                         <span class="subtle">Nothing is stored permanently until you review and approve.</span>
                     </p>
-                    
-                    <textarea 
-                        id="input-text" 
-                        class="input-textarea" 
-                        placeholder="Enter your information here..."
-                        aria-label="Enter information"
-                    ></textarea>
-                    
+
+                    <textarea id="input-text" class="input-textarea" placeholder="Enter your information or thoughts..."
+                        aria-label="Enter information"></textarea>
+
                     <div class="input-footer">
                         <span id="char-count" class="char-count">0 / 10,000</span>
-                        <button id="btn-submit" class="btn btn-primary" disabled>Submit</button>
+                        <div class="input-actions">
+                            <span id="context-indicator" class="context-indicator" hidden>Context Active</span>
+                            <button id="btn-submit" class="btn btn-primary" disabled>Submit</button>
+                        </div>
                     </div>
-                    
+
                     <div id="input-error" class="error-message" hidden></div>
+                </div>
+
+                <!-- Recall Prompt Area (Phase 5) -->
+                <div id="recall-area" class="recall-area" hidden>
+                    <div class="recall-card">
+                        <div class="recall-header">
+                            <span class="recall-label">Thinking Check</span>
+                            <button class="btn-icon close-recall">×</button>
+                        </div>
+                        <p id="recall-prompt-text" class="recall-text"></p>
+                        <div id="recall-actions" class="recall-actions">
+                            <button class="btn btn-secondary btn-small action-reveal">Show Answer</button>
+                            <button class="btn btn-secondary btn-small action-hint">Hint</button>
+                        </div>
+                        <div id="recall-answer" class="recall-answer" hidden>
+                            <p id="recall-answer-text"></p>
+                            <div class="recall-feedback">
+                                <button class="btn btn-small action-feedback" data-result="fail">Forgot</button>
+                                <button class="btn btn-small action-feedback" data-result="partial">Sort of</button>
+                                <button class="btn btn-primary btn-small action-feedback"
+                                    data-result="success">Remembered</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -48,19 +73,19 @@
             <section id="view-review" class="view" hidden>
                 <div class="review-container">
                     <h2>Review Extracted Ideas</h2>
-                    
+
                     <div class="review-original">
                         <h3>Original Input</h3>
                         <p id="review-original-text" class="original-text"></p>
                     </div>
-                    
+
                     <div class="review-ideas">
                         <h3>Extracted Ideas</h3>
                         <div id="review-ideas-list" class="ideas-list"></div>
                     </div>
-                    
+
                     <div id="review-warning" class="warning-message" hidden></div>
-                    
+
                     <div class="review-actions">
                         <button id="btn-merge" class="btn btn-secondary" disabled>Merge Selected</button>
                         <div class="review-actions-right">
@@ -71,24 +96,55 @@
                 </div>
             </section>
 
-            <!-- Ideas View -->
+            <!-- Retrieval View (Phase 6) -->
             <section id="view-ideas" class="view" hidden>
                 <div class="ideas-container">
+                    <div class="search-bar-container">
+                        <input type="text" id="search-input" class="search-input" placeholder="Search your brain...">
+                    </div>
+
                     <div class="ideas-header">
-                        <h2>Stored Ideas</h2>
+                        <h2>Results</h2>
                         <span id="ideas-count" class="ideas-count"></span>
                     </div>
-                    
+
                     <div id="ideas-empty" class="empty-state" hidden>
-                        <p>No ideas stored yet.</p>
-                        <p class="subtle">Submit some information to get started.</p>
+                        <p>No matching ideas found.</p>
+                        <p class="subtle">Try exploring different topics.</p>
                     </div>
-                    
+
                     <div id="ideas-list" class="stored-ideas-list"></div>
-                    
+
                     <div class="ideas-actions">
                         <button id="btn-export" class="btn btn-secondary">Export Data</button>
                         <button id="btn-clear-all" class="btn btn-danger">Clear All Data</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Details View (Phase 4) -->
+            <section id="view-details" class="view" hidden>
+                <div class="details-container">
+                    <button id="btn-back-ideas" class="btn btn-secondary btn-small">← Back</button>
+
+                    <div id="detail-card" class="detail-card">
+                        <!-- Rendered dynamcially -->
+                    </div>
+
+                    <div class="links-section">
+                        <h3>Linked Ideas</h3>
+                        <div id="detail-links" class="links-list"></div>
+                        <div class="add-link-container">
+                            <select id="link-type-select">
+                                <option value="supports">Supports</option>
+                                <option value="depends">Depends On</option>
+                                <option value="example">Is Example Of</option>
+                                <option value="refines">Refines</option>
+                                <option value="contradicts">Contradicts</option>
+                            </select>
+                            <input type="text" id="link-target-input" placeholder="Search target idea ID or text...">
+                            <button id="btn-add-link" class="btn btn-secondary btn-small">Add Link</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -100,7 +156,7 @@
                 <span class="status-dot"></span>
                 Offline-ready
             </span>
-            <span class="version">v1.0</span>
+            <span class="version">v1.4</span>
         </footer>
     </div>
 
@@ -118,10 +174,14 @@
 
     <!-- Scripts -->
     <script src="js/storage.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/recall.js"></script>
+    <script src="js/context.js"></script>
     <script src="js/validation.js"></script>
     <script src="js/chunker.js"></script>
     <script src="js/review.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>

@@ -1,36 +1,38 @@
-# Brain Database App
+# Brain Database App (v1.4)
 
-A local-first cognitive system for capturing and organizing atomic ideas. Built with vanilla HTML/JS, running entirely in your browser with no server, accounts, or cloud dependencies.
+A local-first cognitive system for capturing, organizing, and synthesizing atomic ideas.
 
 ## Features
 
+### Phase 0-3 (Core)
 - **Input Capture**: Type or paste information securely.
-- **Atomic Chunking**: Automatically splits text into "atomic ideas" (facts, definitions, etc.).
-- **User Review**: You are the final authority. Edit, split, merge, or delete ideas before approving.
-- **Local Storage**: All data stays on your machine (`localStorage`).
-- **Export**: Backup your knowledge graph to JSON.
+- **Atomic Chunking**: Automatically splits text into "atomic ideas".
+- **Local Storage**: Data stays on your machine (`localStorage`).
+
+### Phase 4 (Linking & Graph)
+- **Typed Links**: Connect ideas (Supports, Depends On, Example, Contradicts, Refines).
+- **Graph Consistency**: Automatic deduplication checks and orphan detection.
+- **Details View**: deep dive into specific ideas and their connections.
+
+### Phase 5 (Recall & Memory)
+- **Memory Strength**: Visual tracking of how well you know an idea (New → Deep Rooted).
+- **Contextual Recall**: Non-intrusive prompts ("Do you remember...?") based on what you are working on.
+- **Confidence**: Manually tag ideas as "High Confidence" or "Draft".
+
+### Phase 6 (Retrieval & Context)
+- **Contextual Search**: Results are ranked by keyword match AND graph connection.
+- **Pins & Exclusions**: Manually control what appears in your search context.
+- **Export**: Full JSON backup includes graph edges.
 
 ## Usage
 
-1. **Launch**: Open `index.html` in any web browser.
-2. **Input**: Type information into the chat box.
-   - Example: *"Water boils at 100°C because heat provides energy for molecules to escape."*
-3. **Review**: 
-   - The system extracts atomic ideas.
-   - Check if they are correct.
-   - **Split** compound ideas, **Merge** fragments, or **Edit** text.
-   - Assign types (Fact, Definition, Cause, Example, Procedure, Question).
-4. **Confirm**: Click "Confirm All" to save approved ideas.
-5. **View**: See your stored ideas in the "Ideas" tab.
-
-## Principles
-
-- **Offline-First**: Works without an internet connection.
-- **Privacy**: No tracking, no data sharing.
-- **Control**: AI suggests; you decide.
+1. **Launch**: Open `index.html`.
+2. **Input**: Type information. Review and approve chunks.
+3. **Link**: Go to "Search & Retrieve", click an idea, use the "Add Link" section.
+4. **Recall**: Watch for prompts when starting the app or browsing.
+5. **Search**: Use the "Search your brain..." bar to find concepts.
 
 ## Development
 
-- built with: HTML5, CSS3, Vanilla JavaScript
-- storage: browser localStorage
-- license: MIT
+- **Stack**: Vanilla HTML/CSS/JS. No dependencies.
+- **Modules**: `storage`, `graph`, `recall`, `context`, `chunker`, `ui`, `app`.
