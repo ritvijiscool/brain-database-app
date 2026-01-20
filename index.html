@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Database</title>
+    <meta name="description" content="A local-first cognitive system for capturing and organizing atomic ideas.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>Brain Database</h1>
+            <nav class="nav">
+                <button id="nav-input" class="nav-btn active">Input</button>
+                <button id="nav-ideas" class="nav-btn">Ideas</button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Input View -->
+            <section id="view-input" class="view active">
+                <div class="input-container">
+                    <p class="input-guidance">
+                        Type or paste information below.<br>
+                        <span class="subtle">Nothing is stored permanently until you review and approve.</span>
+                    </p>
+                    
+                    <textarea 
+                        id="input-text" 
+                        class="input-textarea" 
+                        placeholder="Enter your information here..."
+                        aria-label="Enter information"
+                    ></textarea>
+                    
+                    <div class="input-footer">
+                        <span id="char-count" class="char-count">0 / 10,000</span>
+                        <button id="btn-submit" class="btn btn-primary" disabled>Submit</button>
+                    </div>
+                    
+                    <div id="input-error" class="error-message" hidden></div>
+                </div>
+            </section>
+
+            <!-- Review View -->
+            <section id="view-review" class="view" hidden>
+                <div class="review-container">
+                    <h2>Review Extracted Ideas</h2>
+                    
+                    <div class="review-original">
+                        <h3>Original Input</h3>
+                        <p id="review-original-text" class="original-text"></p>
+                    </div>
+                    
+                    <div class="review-ideas">
+                        <h3>Extracted Ideas</h3>
+                        <div id="review-ideas-list" class="ideas-list"></div>
+                    </div>
+                    
+                    <div id="review-warning" class="warning-message" hidden></div>
+                    
+                    <div class="review-actions">
+                        <button id="btn-merge" class="btn btn-secondary" disabled>Merge Selected</button>
+                        <div class="review-actions-right">
+                            <button id="btn-cancel" class="btn btn-secondary">Cancel</button>
+                            <button id="btn-confirm" class="btn btn-primary">Confirm All</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ideas View -->
+            <section id="view-ideas" class="view" hidden>
+                <div class="ideas-container">
+                    <div class="ideas-header">
+                        <h2>Stored Ideas</h2>
+                        <span id="ideas-count" class="ideas-count"></span>
+                    </div>
+                    
+                    <div id="ideas-empty" class="empty-state" hidden>
+                        <p>No ideas stored yet.</p>
+                        <p class="subtle">Submit some information to get started.</p>
+                    </div>
+                    
+                    <div id="ideas-list" class="stored-ideas-list"></div>
+                    
+                    <div class="ideas-actions">
+                        <button id="btn-export" class="btn btn-secondary">Export Data</button>
+                        <button id="btn-clear-all" class="btn btn-danger">Clear All Data</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span class="status">
+                <span class="status-dot"></span>
+                Offline-ready
+            </span>
+            <span class="version">v1.0</span>
+        </footer>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="modal-confirm" class="modal" hidden>
+        <div class="modal-content">
+            <h3 id="modal-title">Confirm Action</h3>
+            <p id="modal-message"></p>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+                <button id="modal-confirm-btn" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/chunker.js"></script>
+    <script src="js/review.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
